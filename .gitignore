@@ -1,2 +1,6 @@
 .ipynb_checkpoints
 output/
+.Rproj.user
+.RData
+.Rhistory
+*.Rproj

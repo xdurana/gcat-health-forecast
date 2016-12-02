@@ -1,0 +1,186 @@
+\documentclass[ignorenonframetext,]{beamer}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+\ifxetex
+\usepackage{mathspec}
+\else
+\usepackage{fontspec}
+\fi
+\defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+\usetheme{gcat}
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\newif\ifbibliography
+
+% Prevent slide breaks in the middle of a paragraph:
+\widowpenalties 1 10000
+\raggedbottom
+
+\AtBeginPart{
+\let\insertpartnumber\relax
+\let\partname\relax
+\frame{\partpage}
+}
+\AtBeginSection{
+\ifbibliography
+\else
+\let\insertsectionnumber\relax
+\let\sectionname\relax
+\frame{\sectionpage}
+\fi
+}
+\AtBeginSubsection{
+\let\insertsubsectionnumber\relax
+\let\subsectionname\relax
+\frame{\subsectionpage}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+
+\title{Anàlisi funcional de les dades de càncer de pulmó}
+\author{Xavier Duran Albareda\\
+GCAT Genomes for Life\\
+Institut de Recerca Germans Trias i Pujol (IGTP)}
+\date{HealthForecast\\
+13 de Desembre del 2016}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}{Gene Set Analysis (GSA)}
+
+\end{frame}
+
+\begin{frame}{Variant list}
+
+\begin{table}[ht]
+\centering
+\scalebox{0.5}{
+\begin{tabular}{lrrrrrll}
+  \hline
+name & chrom & chromStart & chromEnd & stability & scaled\_coefficients & ref & alt \\ 
+  \hline
+12:100011290:CATT:C & 12 & 100011290 & 100011291 & 6 & 0.4706627 & C & CATT \\ 
+  12:100018152:C:A & 12 & 100018152 & 100018153 & 1 & 0.4385562 & C & A \\ 
+  12:100116325:A:C & 12 & 100116325 & 100116326 & 1 & 0.4414782 & C & A \\ 
+  12:100119681:G:A & 12 & 100119681 & 100119682 & 1 & 0.4416455 & A & G \\ 
+  12:100123265:T:A & 12 & 100123265 & 100123266 & 1 & 0.4410266 & A & T \\ 
+  12:100125852:T:C & 12 & 100125852 & 100125853 & 1 & 0.4415799 & C & T \\ 
+  12:100138723:T:C & 12 & 100138723 & 100138724 & 1 & 0.4441946 & C & T \\ 
+  12:100141892:A:G & 12 & 100141892 & 100141893 & 1 & 0.4408494 & G & A \\ 
+  12:100142923:G:A & 12 & 100142923 & 100142924 & 1 & 0.4411380 & A & G \\ 
+  12:100147520:G:C & 12 & 100147520 & 100147521 & 1 & 0.4431028 & C & G \\ 
+  12:100147859:G:C & 12 & 100147859 & 100147860 & 1 & 0.4420637 & C & G \\ 
+  12:100148288:G:A & 12 & 100148288 & 100148289 & 1 & 0.4428155 & A & G \\ 
+  12:100149426:C:T & 12 & 100149426 & 100149427 & 1 & 0.4412861 & T & C \\ 
+  12:100151873:A:C & 12 & 100151873 & 100151874 & 1 & 0.4425370 & C & A \\ 
+  12:100153713:T:A & 12 & 100153713 & 100153714 & 1 & 0.4415536 & A & T \\ 
+  12:100161880:C:T & 12 & 100161880 & 100161881 & 1 & 0.4436502 & T & C \\ 
+  12:100201743:T:G & 12 & 100201743 & 100201744 & 2 & 0.4350148 & T & G \\ 
+  12:100202138:C:T & 12 & 100202138 & 100202139 & 3 & 0.4338068 & C & T \\ 
+  12:100206363:C:T & 12 & 100206363 & 100206364 & 1 & 0.4380532 & C & T \\ 
+  12:100207914:C:T & 12 & 100207914 & 100207915 & 3 & 0.4348748 & C & T \\ 
+   \hline
+\end{tabular}
+}
+\caption{Llista de variants} 
+\end{table}
+
+\end{frame}
+
+\begin{frame}{Gene list}
+
+\begin{table}[ht]
+\centering
+\scalebox{0.5}{
+\begin{tabular}{lrrrlll}
+  \hline
+name & chrom & chromStart & chromEnd & type & gene\_name & source \\ 
+  \hline
+12:100011290:CATT:C & 12 & 100011290 & 100011291 & Intron & ANKS1B & protein\_coding \\ 
+  12:100018152:C:A & 12 & 100018152 & 100018153 & Intron & ANKS1B & protein\_coding \\ 
+  12:100116325:A:C & 12 & 100116325 & 100116326 & Intron & ANKS1B & protein\_coding \\ 
+  12:100116325:A:C & 12 & 100116325 & 100116326 & Intron & ANKS1B & protein\_coding \\ 
+  12:100119681:G:A & 12 & 100119681 & 100119682 & Intron & ANKS1B & protein\_coding \\ 
+  12:100119681:G:A & 12 & 100119681 & 100119682 & Intron & ANKS1B & protein\_coding \\ 
+  12:100123265:T:A & 12 & 100123265 & 100123266 & Intron & ANKS1B & protein\_coding \\ 
+  12:100123265:T:A & 12 & 100123265 & 100123266 & Intron & ANKS1B & protein\_coding \\ 
+  12:100125852:T:C & 12 & 100125852 & 100125853 & Intron & ANKS1B & protein\_coding \\ 
+  12:100125852:T:C & 12 & 100125852 & 100125853 & Intron & ANKS1B & protein\_coding \\ 
+  12:100138723:T:C & 12 & 100138723 & 100138724 & Intron & ANKS1B & protein\_coding \\ 
+  12:100138723:T:C & 12 & 100138723 & 100138724 & Intron & ANKS1B & protein\_coding \\ 
+  12:100141892:A:G & 12 & 100141892 & 100141893 & Intron & ANKS1B & protein\_coding \\ 
+  12:100141892:A:G & 12 & 100141892 & 100141893 & Intron & ANKS1B & protein\_coding \\ 
+  12:100142923:G:A & 12 & 100142923 & 100142924 & Intron & ANKS1B & protein\_coding \\ 
+  12:100142923:G:A & 12 & 100142923 & 100142924 & Intron & ANKS1B & protein\_coding \\ 
+  12:100147520:G:C & 12 & 100147520 & 100147521 & Intron & ANKS1B & protein\_coding \\ 
+  12:100147520:G:C & 12 & 100147520 & 100147521 & Intron & ANKS1B & protein\_coding \\ 
+  12:100147859:G:C & 12 & 100147859 & 100147860 & Intron & ANKS1B & protein\_coding \\ 
+  12:100147859:G:C & 12 & 100147859 & 100147860 & Intron & ANKS1B & protein\_coding \\ 
+   \hline
+\end{tabular}
+}
+\caption{Llista de variants} 
+\end{table}
+
+\end{frame}
+
+\begin{frame}{Gene frequency}
+
+\begin{table}[ht]
+\centering
+\scalebox{0.5}{
+\begin{tabular}{lr}
+  \hline
+gene & frequency \\ 
+  \hline
+CCDC91 & 360 \\ 
+  TMEM132B & 345 \\ 
+  TMEM132C & 340 \\ 
+  ATF7IP & 333 \\ 
+  IFLTD1 & 326 \\ 
+  ANKS1B & 303 \\ 
+  GRIP1 & 265 \\ 
+  AEBP2 & 247 \\ 
+  PPFIA2 & 247 \\ 
+  NEDD1 & 229 \\ 
+  RP11-181C3.1 & 214 \\ 
+  SOX5 & 188 \\ 
+  NAV3 & 161 \\ 
+  AC092850.1 & 160 \\ 
+  C12orf79 & 157 \\ 
+  TMEM132D & 156 \\ 
+  CMKLR1 & 155 \\ 
+  DIP2B & 148 \\ 
+  SFSWAP & 148 \\ 
+  CRADD & 141 \\ 
+   \hline
+\end{tabular}
+}
+\caption{Llista de variants} 
+\end{table}
+
+\end{frame}
+
+\end{document}

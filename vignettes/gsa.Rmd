@@ -1,0 +1,79 @@
+---
+title: Anàlisi funcional de les dades de càncer de pulmó
+subtitle:
+author: |
+  | Xavier Duran Albareda
+  | GCAT Genomes for Life
+  | Institut de Recerca Germans Trias i Pujol (IGTP)
+date: |
+  | HealthForecast
+  | 13 de Desembre del 2016
+header-includes:
+output:
+  beamer_presentation:
+    theme: "gcat"
+    incremental: no
+    keep_tex: yes
+    fig_caption: false
+    dev: png
+    slide_level: 2
+    toc: no
+---
+
+## Gene Set Analysis (GSA)
+
+## Variant list
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+library(dplyr)
+library(xtable)
+
+snp_dat_read <- read.csv('../output/lung/snp_dat.csv', header = TRUE)
+
+options(xtable.comment = FALSE)
+print(xtable(snp_dat_read[1:20,], auto = TRUE, caption="Llista de variants"), scalebox = 0.5, include.rownames=FALSE)
+
+```
+
+## Variant list and genes
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+library(dplyr)
+library(xtable)
+
+genes <- read.csv2('../output/lung/genes.csv', header = TRUE, sep = ';') %>%
+  select(
+    name,
+    chrom,
+    chromStart,
+    chromEnd,
+    type,
+    gene_name,
+    source
+  )
+
+options(xtable.comment = FALSE)
+print(xtable(genes[1:20,], auto = TRUE, caption="Llista de variants"), scalebox = 0.5, include.rownames=FALSE)
+
+```
+
+## Gene frequency
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+library(dplyr)
+library(xtable)
+
+gene_list <- read.csv2('../output/lung/gene_list.csv', header = TRUE, sep = ';') %>%
+  arrange(desc(Freq)) %>%
+  rename(
+    gene=Var1,
+    frequency=Freq
+  )
+
+options(xtable.comment = FALSE)
+print(xtable(gene_list[1:20,], auto = TRUE, caption="Llista de variants"), scalebox = 0.5, include.rownames=FALSE)
+
+```
