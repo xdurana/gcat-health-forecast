@@ -1,6 +1,9 @@
 .ipynb_checkpoints
+inst/extdata
 output/
 .Rproj.user
 .RData
 .Rhistory
+.Rbuildignore
+.pversion
 *.Rproj

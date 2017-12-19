@@ -29,21 +29,74 @@ output:
 library(dplyr)
 library(xtable)
 
-snp_dat_read <- read.csv('../output/lung/snp_dat.csv', header = TRUE)
+directory <- '/home/labs/dnalab/share/lims/R/health-forecast'
+snp_dat_read <- read.csv(file.path(directory, 'output/lung/snp_dat.csv'), header = TRUE) %>%
+  arrange(desc(scaled_coefficients))
 
 options(xtable.comment = FALSE)
 print(xtable(snp_dat_read[1:20,], auto = TRUE, caption="Llista de variants"), scalebox = 0.5, include.rownames=FALSE)
 
 ```
 
-## Variant list and genes
+## From variants to genes
+### Ensembl
+
+Provide a centralized  resource for geneticists, molecular biologists and other researchers studying the genomes of our own species and other vertebrates and model organisms.
+
+One of several well known browsers for the retrieval of genomic information.
+
+## From variants to genes
+### Chromosome 12
+
+|||
+|--------------|-------:|
+|Length (bps)|	133,851,895|
+|Coding genes|	1,071|
+|Non coding gene count|	1,131|
+|Pseudogenes|	616|
+|Short Variants|	6,980,191|
+
+\begin{figure}[v]
+  \mbox{\includegraphics[height=1.5in]{images/chr12.png}}
+\end{figure}
+
+## From variants to genes
+### Seq2pathway
+
+Seq2pathway is an R/Python wrapper for pathway (or functional gene-set) analysis of genomic loci, adapted for advances in genome research.
+
+\begin{figure}[v]
+  \mbox{\includegraphics[height=1.5in]{images/seq2gene.png}}
+  \caption{seq2gene workflow}\label{fig:conversion}
+\end{figure}
+
+## From variants to genes
+### Code
+
+```{r eval=FALSE}
+
+  gene_dat <- runseq2gene(
+    inputfile = snp_dat,
+    genome = "hg19",
+    adjacent = TRUE,
+    SNP = TRUE,
+    search_radius = 150000,
+    PromoterStop = FALSE,
+    NearestTwoDirection = TRUE
+  )
+
+```
+
+## From variants to genes
+### Variants and nearby genes
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
 library(dplyr)
 library(xtable)
 
-genes <- read.csv2('../output/lung/genes.csv', header = TRUE, sep = ';') %>%
+directory <- '/home/labs/dnalab/share/lims/R/health-forecast'
+genes <- read.csv2(file.path(directory, 'output/lung/genes.csv'), header = TRUE, sep = ';') %>%
   select(
     name,
     chrom,
@@ -59,14 +112,16 @@ print(xtable(genes[1:20,], auto = TRUE, caption="Llista de variants"), scalebox 
 
 ```
 
-## Gene frequency
+## From variants to genes
+### Gene list
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
 library(dplyr)
 library(xtable)
 
-gene_list <- read.csv2('../output/lung/gene_list.csv', header = TRUE, sep = ';') %>%
+directory <- '/home/labs/dnalab/share/lims/R/health-forecast'
+gene_list <- read.csv2(file.path(directory, 'output/lung/gene_list.csv'), header = TRUE, sep = ';') %>%
   arrange(desc(Freq)) %>%
   rename(
     gene=Var1,
